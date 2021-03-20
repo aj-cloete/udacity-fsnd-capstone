@@ -22,7 +22,6 @@ repos:
   rev: 20.8b1
   hooks:
   - id: black
-    exclude: ^migrations/
 
 - repo: https://gitlab.com/pycqa/flake8
   rev: 3.9.0
