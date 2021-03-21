@@ -35,3 +35,7 @@ log.txt
 *.DS_Store
 *Thumbs.db
 *UserInterfaceState.xcuserstate
+
+.env
+
+*__pycache__*

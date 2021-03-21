@@ -12,7 +12,7 @@ services:
   test-app:
     build:
       context: .
-    command: dockerize -wait tcp://test_pg:5432 flask run
+    command: dockerize -wait tcp://test_pg:5432 flask run --host 0.0.0.0
     restart: always
     ports:
       - "5005:5000"

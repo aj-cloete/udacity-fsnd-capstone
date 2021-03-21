@@ -1,6 +1,15 @@
 build:
 	docker-compose build
 
+.PHONY: upgrade
+upgrade:
+	docker-compose run --rm app flask db upgrade
+
+.PHONY: migrate
+migrate:
+	make upgrade; \
+	docker-compose run --rm app flask db migrate -m "$(m)"
+
 .PHONY: up
 up:
 	docker-compose up --remove-orphans app
@@ -8,7 +17,6 @@ up:
 .PHONY: db
 db:
 	docker-compose up --remove-orphans postgres
-
 
 .PHONY: db-d
 db-d:
@@ -18,13 +26,20 @@ db-d:
 down:
 	docker-compose down
 
+.PHONY: test-upgrade
+test-upgrade:
+	docker-compose -f docker-compose-testing.yml up -d --remove-orphans --build test_pg; \
+	docker-compose -f docker-compose-testing.yml run --rm test-app flask db upgrade; \
+	docker-compose -f docker-compose-testing.yml stop
+
 .PHONY: test
 test:
-	docker-compose -f docker-compose-testing.yml up
+	@-make test-upgrade
+	docker-compose -f docker-compose-testing.yml up --remove-orphans --build test-app
 
 .PHONY: test-db
 test-db:
-	docker-compose -f docker-compose-testing.yml up test_pg
+	docker-compose -f docker-compose-testing.yml up --remove-orphans test_pg
 
 .PHONY: down-test
 down-test:
@@ -37,13 +52,3 @@ prune:
 .PHONY: flask
 flask:
 	make db-d && flask run
-
-.PHONY: upgrade
-upgrade:
-	make db-d; \
-	flask db upgrade;
-
-.PHONY: migrate
-migrate:
-	make upgrade; \
-	flask db migrate -m "$(m)";
