@@ -39,12 +39,12 @@ class ApiModel(BaseModel):
 
 
 def setup_pg_extensions(engine):
-    pgcrypto = "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+    pgcrypto = "CREATE EXTENSION IF NOT EXISTS pgcrypto"
     extensions = [
         pgcrypto,
     ]
     with engine.connect():
-        engine.execute(text("\n".join(extensions)).execution_options(autocommit=True))
+        engine.execute(text(";\n".join(extensions)).execution_options(autocommit=True))
 
 
 db = SQLAlchemy(model_class=ApiModel, metadata=metadata)

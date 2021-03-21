@@ -10,9 +10,10 @@ from database import models  # noqa ## so alembic is aware of all the models
 from database import db
 from database.db import setup_pg_extensions
 
-migrate = Migrate(compare_type=True)
-env = Environments()
+api = Api()
 cors = CORS(resources={r"/*": {"origins": "*"}})
+env = Environments()
+migrate = Migrate(compare_type=True)
 
 
 def init_plugins(app):
@@ -23,8 +24,9 @@ def init_plugins(app):
     from database import models  # noqa
 
     env.init_app(app)
-    cors.init_app(app)
+    api.init_app(app)
     marshmallow.init_app(app)
+    cors.init_app(app)
 
 
 def init_plugins_with_context(app, db):
@@ -41,7 +43,6 @@ def init_plugins_with_context(app, db):
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    api = Api(app)
     init_plugins(app)
     with app.app_context():
         register_blueprints(api)
