@@ -9,9 +9,7 @@ repos:
     args: ['--allow-missing-credentials']
   - id: detect-private-key
   - id: end-of-file-fixer
-    exclude: 'docs/|setup.cfg'
   - id: trailing-whitespace
-    exclude: 'docs/|setup.cfg'
 
 - repo: https://github.com/timothycrosley/isort
   rev: 5.7.0

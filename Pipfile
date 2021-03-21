@@ -7,11 +7,17 @@ name = "pypi"
 crypto = "*"
 flask = "*"
 flask-cors = "*"
+flask-environments = "*"
+flask-marshmallow = "*"
 flask-migrate = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
 
 [dev-packages]
+ipython = "*"
 pre-commit = "*"
 pytest = "*"
 

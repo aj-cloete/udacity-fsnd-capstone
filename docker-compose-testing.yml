@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  test_pg:
+    image: postgres:11
+    ports:
+      - "5105:5432"
+    environment:
+      - POSTGRES_DB=test_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+  test-app:
+    build:
+      context: .
+    command: dockerize -wait tcp://test_pg:5432 flask run
+    restart: always
+    ports:
+      - "5005:5000"
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=TESTING
+      - DATABASE_URL=postgresql://user:password@test_pg:5432/test_db
+    volumes:
+      - .:/home/udacity/
+    depends_on:
+      - test_pg
