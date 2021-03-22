@@ -12,6 +12,7 @@ migrate:
 
 .PHONY: up
 up:
+	make upgrade; \
 	docker-compose up --remove-orphans app
 
 .PHONY: db

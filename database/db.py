@@ -26,15 +26,21 @@ class ApiModel(BaseModel):
         Session.delete(self)
         Session.commit()
 
-    @staticmethod
-    def update(self):
+    def update(self, data={}, **kwargs):
         """
         updates the instance details in the database
+        optionally takes a dict in data with which to update the instance.
+        kwargs can also be used to update information on instance.
         EXAMPLE
             drink = Drink.query.filter(Drink.uuid == uuid).one_or_none()
             drink.title = 'Black Coffee'
             drink.update()
         """
+        update_data = data.update(**kwargs) if kwargs else data
+        if update_data:
+            for key, value in update_data:
+                if hasattr(self, key):
+                    setattr(self, key, update_data[key])
         Session.commit()
 
 

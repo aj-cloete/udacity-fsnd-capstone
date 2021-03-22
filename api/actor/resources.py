@@ -16,16 +16,10 @@ class ActorsApi(ApiResource):
         return actors_schema.dump(actors)
 
     def post(self):
-        data = request.json
+        data = request.form or request.json or request.data
         actor = actor_post_schema.load(data)
         actor.insert()
         return actor_schema.dump(actor)
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
 
 
 class ActorApi(ApiResource):
@@ -33,11 +27,14 @@ class ActorApi(ApiResource):
         actor = Actor.query.get(uuid)
         return ActorSchema().dump(actor)
 
-    def post(self):
-        pass
+    def patch(self, uuid):
+        actor = Actor.query.get(uuid)
+        data = request.form or request.json or request.data
+        actor.update(data)
+        return actor_schema.dump(actor)
 
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+    def delete(self, uuid):
+        actor = Actor.query.get(uuid)
+        actor_uuid = str(actor.uuid)
+        actor.delete()
+        return actor_uuid

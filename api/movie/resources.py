@@ -11,7 +11,7 @@ class MoviesApi(ApiResource):
         return movies_schema.dump(movies)
 
     def post(self):
-        data = request.json
+        data = request.form or request.json or request.data
         movie = movie_post_schema.load(data)
         movie.insert()
         return movie_schema.dump(movie)
@@ -22,11 +22,14 @@ class MovieApi(ApiResource):
         movie = Movie.query.get(uuid)
         return movie_schema.dump(movie)
 
-    def post(self):
-        pass
+    def patch(self, uuid):
+        movie = Movie.query.get(uuid)
+        data = request.form or request.json or request.data
+        movie.update(data)
+        return movie_schema.dump(movie)
 
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+    def delete(self, uuid):
+        movie = Movie.query.get(uuid)
+        movie_uuid = str(movie.uuid)
+        movie.delete()
+        return movie_uuid
