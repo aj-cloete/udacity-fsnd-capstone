@@ -7,7 +7,7 @@ from jose import jwt
 
 AUTH0_DOMAIN = "dev-ly1s0q43.eu.auth0.com"
 ALGORITHMS = ["RS256"]
-API_AUDIENCE = "http://localhost:5000"
+API_AUDIENCE = "https://udacity-fsnd.herokuapp.com/"
 
 
 # # AuthError Exception
@@ -24,12 +24,11 @@ class AuthError(Exception):
 
 # # Auth Header
 """
-@TODO implement get_token_auth_header() method
-    it should attempt to get the header from the request
-        it should raise an AuthError if no header is present
-    it should attempt to split bearer and the token
-        it should raise an AuthError if the header is malformed
-    return the token part of the header
+Attempt to get the header from the request
+Raise an AuthError if no header is present
+Attempt to split bearer and the token
+Raise an AuthError if the header is malformed
+Return the token part of the header
 """
 
 
