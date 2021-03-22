@@ -10,12 +10,20 @@ class ActorSchema(ModelSchema):
     class Meta:
         model = Actor
 
+    movies = fields.Nested(
+        "MovieSchema",
+        many=True,
+        exclude=[
+            "actors",
+        ],
+    )
+
 
 class ActorSchemaPost(ActorSchema):
     class Meta:
         model = Actor
 
-    movie_uuid = fields.UUID(as_uuid=True)
+    movie_uuid = fields.String()
 
 
 actor_schema = ActorSchema()  # noqa

@@ -35,6 +35,7 @@ test-upgrade:
 
 .PHONY: test
 test:
+	@-make down-test
 	@-make test-upgrade
 	docker-compose -f docker-compose-testing.yml up --remove-orphans --build test-app
 

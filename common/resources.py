@@ -2,7 +2,6 @@ from flask import current_app as _app
 from flask import render_template_string
 from flask_restful import Api as _Api
 from flask_restful import Resource
-from gfm import SemiSaneListExtension
 from markdown import markdown
 from mdx_gfm import GithubFlavoredMarkdownExtension
 
@@ -30,6 +29,8 @@ def init_index(app):
         with open("README.md", "r") as readme_file:
             html = markdown(
                 readme_file.read(),
-                extensions=[GithubFlavoredMarkdownExtension(), SemiSaneListExtension()],
+                extensions=[
+                    GithubFlavoredMarkdownExtension(),
+                ],
             )
         return render_template_string(html)

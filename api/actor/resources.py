@@ -7,7 +7,7 @@ from api.actor.schemas import (
     actors_schema,
 )
 from common.resources import ApiResource
-from database.models import Actor
+from database.models import Actor, Movie
 
 
 class ActorsApi(ApiResource):
@@ -18,6 +18,9 @@ class ActorsApi(ApiResource):
     def post(self):
         data = request.form or request.json or request.data
         actor = actor_post_schema.load(data)
+        if data.get("movie_uuid"):
+            movie = Movie.query.get(data.get("movie_uuid"))
+            actor.movies.append(movie)
         actor.insert()
         return actor_schema.dump(actor)
 

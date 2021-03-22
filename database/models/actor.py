@@ -3,7 +3,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from database import db
-from database.models.movie import Movie
 
 movies_actors = Table(
     "movies_actors",
@@ -24,7 +23,7 @@ class Actor(db.Model):
     surname = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer(), nullable=True)
     gender = db.Column(db.String(1), nullable=True)
-    movies = db.relationship(Movie, secondary=movies_actors, backref="actors")
+    movies = db.relationship("Movie", secondary=movies_actors, back_populates="actors")
 
     @hybrid_property
     def full_name(self):

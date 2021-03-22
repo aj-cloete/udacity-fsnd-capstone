@@ -2,7 +2,7 @@ from flask import request
 
 from api.movie.schemas import movie_post_schema, movie_schema, movies_schema
 from common.resources import ApiResource
-from database.models import Movie
+from database.models import Actor, Movie
 
 
 class MoviesApi(ApiResource):
@@ -13,6 +13,9 @@ class MoviesApi(ApiResource):
     def post(self):
         data = request.form or request.json or request.data
         movie = movie_post_schema.load(data)
+        if data.get("actor_uuid"):
+            actor = Actor.query.get(data.get("actor_uuid"))
+            movie.actors.append(actor)
         movie.insert()
         return movie_schema.dump(movie)
 
