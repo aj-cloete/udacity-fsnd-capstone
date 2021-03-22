@@ -2,9 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_environments import Environments
 from flask_migrate import Migrate
-from flask_restful import Api
 
 from api.routes import register_blueprints
+from common.resources import Api
 from common.schemas import marshmallow
 from database import models  # noqa ## so alembic is aware of all the models
 from database import db
