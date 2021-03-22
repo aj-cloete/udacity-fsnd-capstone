@@ -7,5 +7,12 @@ from database.models import Movie
 class MovieSchema(ModelSchema):
     class Meta:
         model = Movie
-        include_relationships = True
-        load_instance = True
+
+
+movie_schema = MovieSchema()  # noqa
+movies_schema = MovieSchema(many=True)  # noqa
+movie_post_schema = MovieSchema(
+    exclude=[
+        "uuid",
+    ]
+)  # noqa

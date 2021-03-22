@@ -1,4 +1,6 @@
-from api.movie.schemas import MovieSchema
+from flask import request
+
+from api.movie.schemas import movie_post_schema, movie_schema, movies_schema
 from common.resources import ApiResource
 from database.models import Movie
 
@@ -6,24 +8,19 @@ from database.models import Movie
 class MoviesApi(ApiResource):
     def get(self):
         movies = Movie.all()
-        return MovieSchema(many=True).dump(movies)
+        return movies_schema.dump(movies)
 
     def post(self):
-        # movie = Movie(title=title, release_date=release_date)
-        # movie.insert()
-        pass
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+        data = request.json
+        movie = movie_post_schema.load(data)
+        movie.insert()
+        return movie_schema.dump(movie)
 
 
 class MovieApi(ApiResource):
     def get(self, uuid):
         movie = Movie.query.get(uuid)
-        return MovieSchema().dump(movie)
+        return movie_schema.dump(movie)
 
     def post(self):
         pass

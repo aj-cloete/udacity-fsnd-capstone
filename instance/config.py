@@ -21,6 +21,7 @@ class Production(Config):
 
 class Development(Config):
     FLASK_ENV = "DEVELOPMENT"
+    FLASK_DEBUG = 1
     DEBUG = True
     SQLALCHEMY_ECHO = True
 
