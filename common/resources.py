@@ -1,6 +1,8 @@
 from flask import current_app as _app
+from flask import render_template_string
 from flask_restful import Api as _Api
 from flask_restful import Resource
+from markdown import markdown
 
 from common.errors import _handle_error
 
@@ -18,3 +20,11 @@ class Api(_Api):
 
 class ApiResource(Resource):
     pass
+
+
+def init_index(app):
+    @app.route("/")
+    def index():
+        with open("README.md", "r") as readme_file:
+            html = markdown(readme_file.read())
+        return render_template_string(html)

@@ -4,6 +4,8 @@ from flask_restful import HTTPException as _HTTPException
 from sqlalchemy.exc import SQLAlchemyError as _SQLAlchemyError
 from werkzeug.http import HTTP_STATUS_CODES as _HTTP_STATUS_CODES
 
+from auth.auth import AuthError
+
 
 class Error(_HTTPException):
     message = "Generic Exception"
@@ -58,3 +60,37 @@ def _handle_error(err):
         )
     # Handle application specific custom exceptions
     return _jsonify(**err.kwargs), err.http_status_code
+
+
+# # Error Handling
+def init_error_handlers(app):
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return (
+            _jsonify({"success": False, "error": 422, "message": "unprocessable"}),
+            422,
+        )
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return _jsonify({"success": False, "error": 404, "message": "not found"}), 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        return (
+            _jsonify(
+                {
+                    "success": False,
+                    "error": 500,
+                    "message": "the server could not complete the request",
+                }
+            ),
+            500,
+        )
+
+    @app.errorhandler(AuthError)
+    def unauthorised(error):
+        return (
+            _jsonify({"success": False, "error": 401, "message": "unauthorised"}),
+            401,
+        )

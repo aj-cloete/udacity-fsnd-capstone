@@ -4,7 +4,8 @@ from flask_environments import Environments
 from flask_migrate import Migrate
 
 from api.routes import register_blueprints
-from common.resources import Api
+from common.errors import init_error_handlers
+from common.resources import Api, init_index
 from common.schemas import marshmallow
 from database import models  # noqa ## so alembic is aware of all the models
 from database import db
@@ -47,4 +48,6 @@ def create_app(test_config=None):
     with app.app_context():
         register_blueprints(api)
         init_plugins_with_context(app, db)
+        init_error_handlers(app)
+        init_index(app)
     return app
