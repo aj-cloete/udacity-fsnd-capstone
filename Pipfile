@@ -26,6 +26,8 @@ py-gfm = "*"
 ipython = "*"
 pre-commit = "*"
 pytest = "*"
+pytest-flask-sqlalchemy = "*"
+pytest-env = "*"
 
 [requires]
 python_version = "3.8"

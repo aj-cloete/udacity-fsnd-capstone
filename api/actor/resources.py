@@ -1,11 +1,6 @@
 from flask import request
 
-from api.actor.schemas import (
-    ActorSchema,
-    actor_post_schema,
-    actor_schema,
-    actors_schema,
-)
+from api.actor.schemas import actor_post_schema, actor_schema, actors_schema
 from common.resources import ApiResource
 from database.models import Actor, Movie
 
@@ -18,9 +13,13 @@ class ActorsApi(ApiResource):
     def post(self):
         data = request.form or request.json or request.data
         actor = actor_post_schema.load(data)
-        if data.get("movie_uuid"):
-            movie = Movie.query.get(data.get("movie_uuid"))
-            actor.movies.append(movie)
+        movie_uuid = data.get("movie_uuid")
+        if movie_uuid:
+            if isinstance(movie_uuid, str):
+                movie_uuid = [movie_uuid]
+            for uuid in movie_uuid:
+                movie = Movie.query.get(uuid)
+                actor.movies.append(movie)
         actor.insert()
         return actor_schema.dump(actor)
 
@@ -28,7 +27,7 @@ class ActorsApi(ApiResource):
 class ActorApi(ApiResource):
     def get(self, uuid):
         actor = Actor.query.get(uuid)
-        return ActorSchema().dump(actor)
+        return actor_schema.dump(actor)
 
     def patch(self, uuid):
         actor = Actor.query.get(uuid)

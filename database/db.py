@@ -1,13 +1,14 @@
-from flask import current_app
+from flask import current_app as _app
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session
 
 from common.models import BaseModel, metadata
+from instance import config
 
 Session = scoped_session(
-    lambda: current_app.extensions["sqlalchemy"].db.session,
-    scopefunc=lambda: current_app.extensions["sqlalchemy"].db.session,
+    lambda: _app.extensions["sqlalchemy"].db.session,
+    scopefunc=lambda: _app.extensions["sqlalchemy"].db.session,
 )
 
 
@@ -45,6 +46,9 @@ class ApiModel(BaseModel):
 
 
 def setup_pg_extensions(engine):
+    """
+    Run raw SQL in the database to set up extensions
+    """
     pgcrypto = "CREATE EXTENSION IF NOT EXISTS pgcrypto"
     extensions = [
         pgcrypto,
@@ -54,3 +58,4 @@ def setup_pg_extensions(engine):
 
 
 db = SQLAlchemy(model_class=ApiModel, metadata=metadata)
+test_engine = create_engine(config.Testing.SQLALCHEMY_DATABASE_URI)

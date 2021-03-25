@@ -13,9 +13,14 @@ class MoviesApi(ApiResource):
     def post(self):
         data = request.form or request.json or request.data
         movie = movie_post_schema.load(data)
-        if data.get("actor_uuid"):
-            actor = Actor.query.get(data.get("actor_uuid"))
-            movie.actors.append(actor)
+
+        actor_uuid = data.get("actor_uuid")
+        if actor_uuid:
+            if isinstance(actor_uuid, str):
+                actor_uuid = [actor_uuid]
+            for uuid in actor_uuid:
+                actor = Actor.query.get(uuid)
+                movie.actors.append(actor)
         movie.insert()
         return movie_schema.dump(movie)
 
