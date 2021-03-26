@@ -11,99 +11,8 @@ The API can be accessed at the following web address: https://udacity-fsnd.herok
 
 The github repository link is: https://github.com/aj-cloete/udacity-fsnd-capstone
 
-### Endpoints
-The API has the following two models, with corresponding endpoints:
-#### Movies
-
-`GET` https://udacity-fsnd.herokuapp.com/movies
-
-- **request:** get all movies in the database
-- **response:** an array containing `movie` objects
-
-    ```
-    [
-        {
-            "release_date":"2000-06-05",
-            "title":"Gone in Sixty Seconds",
-            "actors":[
-                ...
-            ],
-            "uuid":"e57d1be3-8617-4e05-bdc2-6172a27acf1a"
-        },
-        {
-            ...
-        }
-    ]
-    ```
-
-`POST` https://udacity-fsnd.herokuapp.com/movies
-
-- **request:** create a new movie object in the database
-
-  **request body:**
-
-    ```
-    {
-        "title": a string field containing the name of the movie,
-        "release_date": the release date of the movie (can be in the future)
-        "actor_uuid": (optional) [list of] string of the uuid(s) of the actor(s) associated with this movie
-    }
-    ```
-
-- **response:** the created movie object, for example:
-
-    ```
-    {
-        "release_date": "2000-06-05",
-        "title": "Gone in Sixty Seconds",
-        "actors": [],
-        "uuid": "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
-    }
-    ```
-
-`GET` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
-- **request:** get the specific movie with uuid = <movie_url>
-- **response:**
-
-    ```
-    {
-        "release_date": "2000-06-05",
-        "title": "Gone in Sixty Seconds",
-        "actors": [],
-        "uuid": "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
-    }
-    ```
-
-`PATCH` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
-- **request:** UPDATE the specific movie with uuid = <movie_url>
-- **request_body:**
-
-```
-    {
-        "title": (optional) a string field containing the name of the movie,
-        "release_date": (optional) the release date of the movie (can be in the future)
-        "actor_uuid": (optional) [list of] string of the uuid(s) of the actor(s) associated with this movie
-    }
-```
-
-- **response:** the updated movie from the database
-
-    ```
-    {
-        "release_date": "2030-06-05",
-        "title": "Gone in Seventy Seconds",
-        "actors": [],
-        "uuid": "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
-    }
-    ```
-
-`DELETE` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
-- **request:** DELETE the specific movie with uuid = <movie_url>
-- **response:** the uuid of the movie that was deleted from the database
-
-    ```
-    "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
-    ```
+### API endpoints
+The full documentation for the API can be found [here](./API.md)
 
 ## Development
 ### Setup
@@ -141,6 +50,6 @@ DATABASE_URL=<your-database-url-here>
 
 ### Run the web server
 To run the web server, simply use one of the tools provided:
-- `flask run` if you're running your own database and you've configured DATABASE_URL in the `.env` file
+- `flask run` if you're running your own database, and you've configured DATABASE_URL in the `.env` file
 - `make flask` to bring up postgres in docker and run the flask app locally
 - `make up` to bring up the deployment fully within docker using docker-compose.

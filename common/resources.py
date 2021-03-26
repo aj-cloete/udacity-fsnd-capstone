@@ -22,12 +22,21 @@ class ApiResource(Resource, Api):
 
 
 def init_index(app):
-    @app.route("/")
+    @app.route("/README.md")
     def index():
         with open("README.md", "r") as readme_file:
             markdown_text = readme_file.read()
         response = requests.post(
             "https://api.github.com/markdown", json={"text": markdown_text}
         )
-        html = response.text
-        return html
+        return response.text
+
+    @app.route("/")
+    @app.route("/API.md")
+    def api():
+        with open("API.md", "r") as readme_file:
+            markdown_text = readme_file.read()
+        response = requests.post(
+            "https://api.github.com/markdown", json={"text": markdown_text}
+        )
+        return response.text
