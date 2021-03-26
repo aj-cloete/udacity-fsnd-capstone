@@ -9,6 +9,8 @@ This system helps to simplify and streamline the process of managing and assigni
 ### Where to find it
 The API can be accessed at the following web address: https://udacity-fsnd.herokuapp.com/
 
+The github repository link is: https://github.com/aj-cloete/udacity-fsnd-capstone
+
 ### Endpoints
 The API has the following two models, with corresponding endpoints:
 #### Movies
@@ -17,6 +19,7 @@ The API has the following two models, with corresponding endpoints:
 
 - **request:** get all movies in the database
 - **response:** an array containing `movie` objects
+
     ```
     [
         {
@@ -37,7 +40,8 @@ The API has the following two models, with corresponding endpoints:
 
 - **request:** create a new movie object in the database
 
-  **request body:***
+  **request body:**
+
     ```
     {
         "title": a string field containing the name of the movie,
@@ -47,6 +51,7 @@ The API has the following two models, with corresponding endpoints:
     ```
 
 - **response:** the created movie object, for example:
+
     ```
     {
         "release_date": "2000-06-05",
@@ -59,6 +64,7 @@ The API has the following two models, with corresponding endpoints:
 `GET` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
 - **request:** get the specific movie with uuid = <movie_url>
 - **response:**
+
     ```
     {
         "release_date": "2000-06-05",
@@ -67,9 +73,11 @@ The API has the following two models, with corresponding endpoints:
         "uuid": "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
     }
     ```
+
 `PATCH` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
 - **request:** UPDATE the specific movie with uuid = <movie_url>
 - **request_body:**
+
 ```
     {
         "title": (optional) a string field containing the name of the movie,
@@ -77,7 +85,9 @@ The API has the following two models, with corresponding endpoints:
         "actor_uuid": (optional) [list of] string of the uuid(s) of the actor(s) associated with this movie
     }
 ```
+
 - **response:** the updated movie from the database
+
     ```
     {
         "release_date": "2030-06-05",
@@ -90,6 +100,7 @@ The API has the following two models, with corresponding endpoints:
 `DELETE` https://udacity-fsnd.herokuapp.com/movies/<movie_url>
 - **request:** DELETE the specific movie with uuid = <movie_url>
 - **response:** the uuid of the movie that was deleted from the database
+
     ```
     "e57d1be3-8617-4e05-bdc2-6172a27acf1a"
     ```
@@ -97,10 +108,7 @@ The API has the following two models, with corresponding endpoints:
 ## Development
 ### Setup
 This project uses `pipenv` to set up the development environment and docker images.
-You can easily install `pipenv` by simply running
-```
-pip install pipenv
-```
+You can easily install `pipenv` by simply running `pip install pipenv`
 and then use `pipenv install --dev` to set up the development environment.
 
 You can use `docker` to stand up both the webserver and a postgres container by using `docker-compose` directly
@@ -124,7 +132,9 @@ This project has a Makefile, providing easy access to the `docker-compose` comma
 
 #### Environment file
 This project expects a `.env` file to work.  The file can be empty but may also be used to store things such as:
+
 ```
+# ./.env
 FLASK_ENV=DEVELOPMENT
 DATABASE_URL=<your-database-url-here>
 ```
