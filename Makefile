@@ -47,6 +47,13 @@ test-db:
 down-test:
 	docker-compose -f docker-compose-testing.yml down --remove-orphans
 
+.PHONY: tests
+tests:
+	@-make down-test
+	@-make test-upgrade
+	docker-compose -f docker-compose-testing.yml up -d --remove-orphans --build test-app
+	pytest -vv
+
 .PHONY: prune
 prune:
 	docker system prune -f

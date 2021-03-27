@@ -1,8 +1,11 @@
-from flask import request
+from flask import Blueprint, request
 
 from api.actor.schemas import actor_post_schema, actor_schema, actors_schema
-from common.resources import ApiResource
+from common.resources import Api, ApiResource
 from database.models import Actor, Movie
+
+actor_bp = Blueprint("actor_bp", __name__)
+api = Api(actor_bp)
 
 
 class ActorsApi(ApiResource):
@@ -40,3 +43,7 @@ class ActorApi(ApiResource):
         actor_uuid = str(actor.uuid)
         actor.delete()
         return actor_uuid
+
+
+api.add_resource(ActorsApi, "/")
+api.add_resource(ActorApi, "/<uuid>")

@@ -33,3 +33,5 @@ actor_post_schema = ActorSchemaPost(
         "uuid",
     ]
 )  # noqa
+
+actor_patch_schema = ActorSchemaPost()

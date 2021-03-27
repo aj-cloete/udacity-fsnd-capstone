@@ -11,7 +11,7 @@ class Config(object):
     )
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    FLASK_APP = os.environ.get("FLASK_APP", ".app")
+    FLASK_APP = os.environ.get("FLASK_APP", "app.py")
     SECRET_KEY = os.environ.get("SECRET", "very-long-string-of-random-characters")
 
 

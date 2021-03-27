@@ -17,24 +17,10 @@ class Api(_Api):
         return _handle_error(err)
 
 
-class ApiResource(Resource, Api):
-    pass
-
-
-def init_index(app):
-    @app.route("/README.md")
-    def index():
-        with open("README.md", "r") as readme_file:
-            markdown_text = readme_file.read()
-        response = requests.post(
-            "https://api.github.com/markdown", json={"text": markdown_text}
-        )
-        return response.text
-
-    @app.route("/")
-    @app.route("/API.md")
-    def api():
-        with open("API.md", "r") as readme_file:
+class ApiResource(Resource):
+    @staticmethod
+    def render_markdown(filename):
+        with open(filename, "r") as readme_file:
             markdown_text = readme_file.read()
         response = requests.post(
             "https://api.github.com/markdown", json={"text": markdown_text}

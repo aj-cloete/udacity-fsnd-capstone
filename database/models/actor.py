@@ -13,7 +13,7 @@ movies_actors = Table(
 
 
 class Actor(db.Model):
-    def __init__(self, name, surname=None, age=None, gender=None, movie_uuid=None):
+    def __init__(self, name, surname=None, age=None, gender=None):
         self.name = name
         self.surname = surname
         self.age = age

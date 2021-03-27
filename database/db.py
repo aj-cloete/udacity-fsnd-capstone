@@ -39,7 +39,7 @@ class ApiModel(BaseModel):
         """
         update_data = data.update(**kwargs) if kwargs else data
         if update_data:
-            for key, value in update_data:
+            for key, value in update_data.items():
                 if hasattr(self, key):
                     setattr(self, key, update_data[key])
         Session.commit()
