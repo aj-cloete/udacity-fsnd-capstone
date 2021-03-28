@@ -1,13 +1,52 @@
 import json
+import os
 from functools import wraps
+from urllib.parse import urlencode
 from urllib.request import urlopen
 
-from flask import request
+from flask import request, url_for
 from jose import jwt
+from werkzeug.utils import redirect
 
-AUTH0_DOMAIN = "dev-ly1s0q43.eu.auth0.com"
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN", "dev-ly1s0q43.eu.auth0.com")
 ALGORITHMS = ["RS256"]
-API_AUDIENCE = "https://udacity-fsnd.herokuapp.com/"
+AUTH0_AUDIENCE = os.environ.get("AUTH0_AUDIENCE", "https://udacity-fsnd.herokuapp.com/")
+AUTH0_CALLBACK_URL = os.environ.get("AUTH0_CALLBACK_URL")
+AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
+AUTH0_BASE_URL = os.environ.get("AUTH0_BASE_URL")
+
+
+def register(oauth):
+    auth0 = oauth.register(
+        "auth0",
+        client_id=AUTH0_CLIENT_ID,
+        client_secret=AUTH0_CLIENT_SECRET,
+        api_base_url=AUTH0_BASE_URL,
+        access_token_url=AUTH0_BASE_URL + "/oauth/token",
+        authorize_url=AUTH0_BASE_URL + "/authorize",
+        client_kwargs={
+            "scope": "openid profile email",
+        },
+    )
+    return auth0
+
+
+def register_login_logout(app, oauth):
+    auth0 = register(oauth)
+
+    @app.route("/login")
+    def login():
+        return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL)
+
+    @app.route("/logout")
+    def logout():
+        # Redirect user to logout endpoint
+        params = {
+            "returnTo": url_for("login", _external=True),
+            "client_id": AUTH0_CLIENT_ID,
+        }
+        return redirect(auth0.api_base_url + "/v2/logout?" + urlencode(params))
 
 
 # # AuthError Exception
@@ -126,7 +165,7 @@ def verify_decode_jwt(token):
                 token,
                 rsa_key,
                 algorithms=ALGORITHMS,
-                audience=API_AUDIENCE,
+                audience=AUTH0_AUDIENCE,
                 issuer="https://" + AUTH0_DOMAIN + "/",
             )
 

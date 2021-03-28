@@ -14,6 +14,21 @@ The github repository link is: https://github.com/aj-cloete/udacity-fsnd-capston
 ### API endpoints
 The full documentation for the API can be found [here](./API.md)
 
+## Authentication
+### Roles
+
+- Casting Assistant
+  - Can view actors and movies
+- Casting Director
+  - All permissions a Casting Assistant has and...
+  - Add or delete an actor from the database
+  - Modify actors or movies
+- Executive Producer
+  - All permissions a Casting Director has and...
+  - Add or delete a movie from the database
+
+
+
 ## Development
 ### Setup
 This project uses `pipenv` to set up the development environment and docker images.
