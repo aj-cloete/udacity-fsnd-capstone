@@ -27,6 +27,8 @@ The full documentation for the API can be found [here](./API.md)
   - All permissions a Casting Director has and...
   - Add or delete a movie from the database
 
+### login
+To log in, go to https://udacity-fsnd.herokuapp.com/auth/login and use the pre-shared login/password credentials.
 
 
 ## Development
