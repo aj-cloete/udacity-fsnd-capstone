@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 
 from api.movie.schemas import movie_post_schema, movie_schema, movies_schema
+from auth.auth import requires_auth
 from common.resources import Api, ApiResource
 from database.models import Actor, Movie
 
@@ -9,10 +10,12 @@ api = Api(movie_bp)
 
 
 class MoviesApi(ApiResource):
+    @requires_auth("get:movies")
     def get(self):
         movies = Movie.all()
         return movies_schema.dump(movies)
 
+    @requires_auth("post:movies")
     def post(self):
         data = request.form or request.json or request.data
         movie = movie_post_schema.load(data)
@@ -29,16 +32,19 @@ class MoviesApi(ApiResource):
 
 
 class MovieApi(ApiResource):
+    @requires_auth("get:movies")
     def get(self, uuid):
         movie = Movie.query.get(uuid)
         return movie_schema.dump(movie)
 
+    @requires_auth("patch:movies")
     def patch(self, uuid):
         movie = Movie.query.get(uuid)
         data = request.form or request.json or request.data
         movie.update(data)
         return movie_schema.dump(movie)
 
+    @requires_auth("delete:movies")
     def delete(self, uuid):
         movie = Movie.query.get(uuid)
         movie_uuid = str(movie.uuid)
